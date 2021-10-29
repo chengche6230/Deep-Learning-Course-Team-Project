@@ -128,5 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-./Competition 1/data/test.csv
-./Competition 1/data/train.csv
+test.csv
+train.csv
