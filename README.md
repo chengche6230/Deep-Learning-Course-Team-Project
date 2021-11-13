@@ -24,6 +24,15 @@ For every news in the test.csv, submission files should contain two columns: Id 
 </code></pre>
 
 ## Competition 2:
+### Description
+Object Detection
+
+In this competition, you have to train a model that recognizes objects in an image. Your goal is to output bounding boxes for objects.
+Given an image(shape = [undefined, undefined, 3]), you need to output a list of bounding boxes (xmin, ymin, xmax, ymax, classlabel, confidencescore) for objects showed in image and its class.
+### Evaluation
+The evaluation metric for this competition is comparing your mean Average Precision on the different packs of testing data with the ground truth results(mean squared error). The ranking on the leaderboard is 50% of the testing packs. Your final score will be decided by the rest of 50% after the end of the competition.
+
+There are two baseline results, Benchmark-60 and Benchmark-80. You have to outperform Benchmark-60 to get 60 points, and Benchmark-80 to get 80. Meanwhile, the lower point(error) you achieve, the higher the final score you will get.
 
 ## Competition 3:
 
