@@ -1,3 +1,4 @@
+
 # coding: utf-8
 
 # In[1]:
@@ -380,7 +381,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class Evaluator:
-
     def GetPascalVOCMetrics(self,
                             boundingboxes,
                             IOUThreshold=0.5,
@@ -588,7 +588,7 @@ class Evaluator:
             # ap_str = "{0:.4f}%".format(average_precision * 100)
             plt.title('Precision x Recall curve \nClass: %s, AP: %s' % (str(classId), ap_str))
         else:
-            plt.title('Precision x Recall curve \nClass: %s' %(classId))
+            plt.title('Precision x Recall curve \nClass: %d' % classId)
         plt.legend(shadow=True)
         plt.grid()
         ############################################################
@@ -809,103 +809,10 @@ get_ipython().magic('matplotlib inline')
 # In[45]:
 
 # ## Load encrypted answer
-# %%
-# Redefined read data
-
-def getBoundingBoxes():
-    """Read txt files containing bounding boxes (ground truth and detections)."""
-    allBoundingBoxes = BoundingBoxes()
-    import glob
-    import os
-    # Read ground truths
-    currentPath = os.path.dirname(os.path.abspath(__file__))
-    folderGT = os.path.join(currentPath, 'groundtruths')
-    os.chdir(folderGT)
-    files = glob.glob("*.txt")
-    files.sort()
-    # Class representing bounding boxes (ground truths and detections)
-    allBoundingBoxes = BoundingBoxes()
-    # Read GT detections from txt file
-    # Each line of the files in the groundtruths folder represents a ground truth bounding box
-    # (bounding boxes that a detector should detect)
-    # Each value of each line is  "class_id, x, y, width, height" respectively
-    # Class_id represents the class of the bounding box
-    # x, y represents the most top-left coordinates of the bounding box
-    # x2, y2 represents the most bottom-right coordinates of the bounding box
-    for f in files:
-        nameOfImage = f.replace(".txt", "")
-        fh1 = open(f, "r")
-        for line in fh1:
-            line = line.replace("\n", "")
-            if line.replace(' ', '') == '':
-                continue
-            splitLine = line.split(" ")
-            idClass = splitLine[0]  # class
-            x = float(splitLine[1])  # confidence
-            y = float(splitLine[2])
-            w = float(splitLine[3])
-            h = float(splitLine[4])
-            bb = BoundingBox(
-                nameOfImage,
-                idClass,
-                x,
-                y,
-                w,
-                h,
-                CoordinatesType.Absolute, (200, 200),
-                BBType.GroundTruth,
-                format=BBFormat.XYWH)
-            allBoundingBoxes.addBoundingBox(bb)
-        fh1.close()
-    # Read detections
-    folderDet = os.path.join(currentPath, 'detections')
-    os.chdir(folderDet)
-    files = glob.glob("*.txt")
-    files.sort()
-    # Read detections from txt file
-    # Each line of the files in the detections folder represents a detected bounding box.
-    # Each value of each line is  "class_id, confidence, x, y, width, height" respectively
-    # Class_id represents the class of the detected bounding box
-    # Confidence represents confidence (from 0 to 1) that this detection belongs to the class_id.
-    # x, y represents the most top-left coordinates of the bounding box
-    # x2, y2 represents the most bottom-right coordinates of the bounding box
-    for f in files:
-        # nameOfImage = f.replace("_det.txt","")
-        nameOfImage = f.replace(".txt", "")
-        # Read detections from txt file
-        fh1 = open(f, "r")
-        for line in fh1:
-            line = line.replace("\n", "")
-            if line.replace(' ', '') == '':
-                continue
-            splitLine = line.split(" ")
-            idClass = splitLine[0]  # class
-            confidence = float(splitLine[1])  # confidence
-            x = float(splitLine[2])
-            y = float(splitLine[3])
-            w = float(splitLine[4])
-            h = float(splitLine[5])
-            bb = BoundingBox(
-                nameOfImage,
-                idClass,
-                x,
-                y,
-                w,
-                h,
-                CoordinatesType.Absolute, (200, 200),
-                BBType.Detected,
-                confidence,
-                format=BBFormat.XYWH)
-            allBoundingBoxes.addBoundingBox(bb)
-        fh1.close()
-    return allBoundingBoxes
-
-
 
 # In[54]:
 from cryptography.fernet import Fernet
 def evaluate(predict_file, output_csv_file):
-    
     key = b'DkiYWU9DdeGwJxhWXy12Jiv6XTI8q4nt6lHLdPLiyCA='
 
 
@@ -913,7 +820,6 @@ def evaluate(predict_file, output_csv_file):
 
 
     all_boundingBoxes = [BoundingBoxes() for _ in range(10)]
-    big_boundingBoxes = [BoundingBoxes() for _ in range(20)]
     class_distribution = np.zeros([10, 20])
     pack_dict = dict()
 
@@ -932,33 +838,17 @@ def evaluate(predict_file, output_csv_file):
         test_case = cipher_suite.decrypt(test_case.encode()).decode()
         ss = test_case.split(' ')
         pack_num = int(ss[0])
-        # print('Pack_NUM',pack_num)
         image_name = ss[1].split('/')[-1]
         pack_dict[image_name] = pack_num
         gt_boxes = [float(num) for num in ss[2:]]
-        # print("Edit3")
         for num_box in range(len(gt_boxes)//5):
             class_distribution[pack_num, int(gt_boxes[num_box*5+4])] += 1
-            bb = BoundingBox(
-                imageName=image_name,
-                classId=classes_name[int(gt_boxes[num_box*5+4])], #this is str
-                x=gt_boxes[num_box*5],
-                y=gt_boxes[num_box*5+1],
-                w=gt_boxes[num_box*5+2],
-                h=gt_boxes[num_box*5+3],
-                bbType=BBType.GroundTruth,
-                format=BBFormat.XYX2Y2 #! XYX2Y2
-            )
-            # print(int(gt_boxes[num_box*5+4]))
-            # print(type(int(gt_boxes[num_box*5+4])))
-            # int(gt_boxes[num_box*5+4]) this is int index
-            big_boundingBoxes[int(gt_boxes[num_box*5+4])].addBoundingBox(bb)
+
             all_boundingBoxes[pack_num].addBoundingBox(
-                BoundingBox(imageName=image_name, classId=classes_name[int(gt_boxes[num_box*5+4])], x=gt_boxes[num_box*5], y=gt_boxes[num_box*5+1],
+                BoundingBox(imageName=image_name, classId=classes_name[int(gt_boxes[num_box*5+4])], x=gt_boxes[num_box*5], y=gt_boxes[num_box*5+1], 
                                        w=gt_boxes[num_box*5+2], h=gt_boxes[num_box*5+3],
                                        bbType=BBType.GroundTruth, format=BBFormat.XYX2Y2)
             )
-        
     gt_file.close()
 
 
@@ -980,24 +870,13 @@ def evaluate(predict_file, output_csv_file):
 
         pd_boxes = [float(num) for num in ss[1:]]
         for num_box in range(len(pd_boxes)//6):
-            bb = BoundingBox(
-                imageName=image_name,
-                classId=classes_name[int(pd_boxes[num_box*6+4])],
-                x=pd_boxes[num_box*6],
-                y=pd_boxes[num_box*6+1],
-                w=pd_boxes[num_box*6+2],
-                h=pd_boxes[num_box*6+3],
-                bbType=BBType.Detected,
-                format=BBFormat.XYX2Y2,
-                classConfidence=pd_boxes[num_box*6+5]
-            )
-            big_boundingBoxes[int(pd_boxes[num_box*6+4])].addBoundingBox(bb)
             all_boundingBoxes[pack_num].addBoundingBox(
                 BoundingBox(imageName=image_name, classId=classes_name[int(pd_boxes[num_box*6+4])], x=pd_boxes[num_box*6], y=pd_boxes[num_box*6+1], 
                                        w=pd_boxes[num_box*6+2], h=pd_boxes[num_box*6+3],
                                        bbType=BBType.Detected, format=BBFormat.XYX2Y2, classConfidence=pd_boxes[num_box*6+5])
             )
-            
+
+
     # In[59]:
 
 
@@ -1006,7 +885,7 @@ def evaluate(predict_file, output_csv_file):
 
     # In[78]:
 
-    # print("Check")
+
     import pandas as pd
     result = []
     for i in range(10):
@@ -1028,17 +907,13 @@ def evaluate(predict_file, output_csv_file):
 
         total_instances = np.sum(class_distribution[i])
 
+
         for j in range(20):
             result.append([str(i)+'with'+str(j), all_class_precision[j]])
-
-        
 
     df_output = pd.DataFrame(result, columns=['Id', 'packedCAP'])
     df_output.to_csv(output_csv_file, index=False)
     print("End Evalutation")
-    print("Ahhhhhhhhhhhhhhhhhh")
-    # print(all_class_precision)
-    return all_boundingBoxes, big_boundingBoxes
+        #print(all_class_precision)
+        #print(class_distribution[i])
 
-
-# %%
