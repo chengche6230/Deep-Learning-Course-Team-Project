@@ -23,9 +23,8 @@ For every news in the test.csv, submission files should contain two columns: Id 
 3    0.1
 </code></pre>
 
-## Competition 2:
+## Competition 2: Object Detection
 ### Description
-Object Detection
 
 In this competition, you have to train a model that recognizes objects in an image. Your goal is to output bounding boxes for objects.
 Given an image(shape = [undefined, undefined, 3]), you need to output a list of bounding boxes (xmin, ymin, xmax, ymax, classlabel, confidencescore) for objects showed in image and its class.
