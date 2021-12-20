@@ -28,11 +28,29 @@ For every news in the test.csv, submission files should contain two columns: Id 
 
 In this competition, you have to train a model that recognizes objects in an image. Your goal is to output bounding boxes for objects.
 Given an image(shape = [undefined, undefined, 3]), you need to output a list of bounding boxes (xmin, ymin, xmax, ymax, classlabel, confidencescore) for objects showed in image and its class.
+
 ### Evaluation
+
 The evaluation metric for this competition is comparing your mean Average Precision on the different packs of testing data with the ground truth results(mean squared error). The ranking on the leaderboard is 50% of the testing packs. Your final score will be decided by the rest of 50% after the end of the competition.
 
 There are two baseline results, Benchmark-60 and Benchmark-80. You have to outperform Benchmark-60 to get 60 points, and Benchmark-80 to get 80. Meanwhile, the lower point(error) you achieve, the higher the final score you will get.
 
-## Competition 3:
+## Competition 3: Reverse Image Caption
+### Description
+
+In this work, we are interested in translating text in the form of single-sentence human-written descriptions directly into image pixels. For example, "this flower has petals that are yellow and has a ruffled stamen" and "this pink and yellow flower has a beautiful yellow center with many stamens". You have to develop a novel deep architecture and GAN formulation to effectively translate visual concepts from characters to pixels.
+
+More specifically, given a set of texts, your task is to generate suitable images with size 64x64x3 to illustrate each of the texts.
+
+You will compete on the modified release of Oxford-102 flower dataset and its paired texts.
+
+### Evaluation
+
+In this competition, we use both inception score and cosine distance as our final score to evaluate quality and diversity of generated images. You can find more details about inception score in this article. The final score is based on:
+
+* Similarity of images and the given contents. How similar are the generated images and the given texts?
+* KL divergence of generated images. Are the generated images very diverse?<br>The ranking on the public leaderboard is about 50% of the testing packs. Your final score(private leaderboard) will be decided by the rest of 50% after the end of the competition.
+
+There are two baseline results, Benchmark-60 and Benchmark-80. You have to outperform Benchmark-60 to get 60 points, and Benchmark-80 to get 80. Meanwhile, the lower point(error) you achieve, the higher the final score you will get.
 
 ## Competition 4:
