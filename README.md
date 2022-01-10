@@ -60,7 +60,7 @@ In this work, we try to crack the unlearnable dataset which proposed by Neural T
 
 Authors of NTGA propose the generalization attack, a new direction for poisoning attacks, where an attacker aims to modify training data in order to spoil the training process such that a trained network lacks generalizability. They devise Neural Tangent Generalization Attack (NTGA), a first efficient work enabling clean-label, black-box generalization attacks against Deep Neural Networks.
 
-NTGA declines the generalization ability sharply, i.e. 99% -> 15%, 92% -> 33%, 99% -> 72% on MNIST, CIFAR10 and 2- class ImageNet, respectively.
+NTGA declines the generalization ability sharply, i.e. `99% -> 15%`, `92% -> 33%`, `99% -> 72%` on `MNIST`, `CIFAR10` and `2- class ImageNet`, respectively.
 
 ### Evaluation
 
