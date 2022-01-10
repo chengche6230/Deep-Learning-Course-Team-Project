@@ -19,3 +19,8 @@ We have 2 model versions about this homework that deal quite good performance. D
     - WGAN-GP Loss
     - No Data Augmentation
     - Normalization (127.5)
+
+## Reference
+
+- [Notebook](https://nthu-datalab.github.io/ml/competitions/Comp_03_Reverse-Image-Caption/03_Reverse-Image-Caption.html)
+- [Slides](https://nthu-datalab.github.io/ml/competitions/Comp_03_Reverse-Image-Caption/03_Reverse-Image-Caption_slide.pdf)
