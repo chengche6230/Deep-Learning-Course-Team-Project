@@ -54,3 +54,14 @@ In this competition, we use both inception score and cosine distance as our fina
 There are two baseline results, Benchmark-60 and Benchmark-80. You have to outperform Benchmark-60 to get 60 points, and Benchmark-80 to get 80. Meanwhile, the lower point(error) you achieve, the higher the final score you will get.
 
 ## Competition 4:
+### Description
+
+In this work, we try to crack the unlearnable dataset which proposed by Neural Tangent Generalization Attacks (NTGA) ICML'21
+
+Authors of NTGA propose the generalization attack, a new direction for poisoning attacks, where an attacker aims to modify training data in order to spoil the training process such that a trained network lacks generalizability. They devise Neural Tangent Generalization Attack (NTGA), a first efficient work enabling clean-label, black-box generalization attacks against Deep Neural Networks.
+
+NTGA declines the generalization ability sharply, i.e. 99% -> 15%, 92% -> 33%, 99% -> 72% on MNIST, CIFAR10 and 2- class ImageNet, respectively.
+
+### Evaluation
+
+We will calculate categorizationaccuracy with true label!
